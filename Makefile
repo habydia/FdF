@@ -1,7 +1,7 @@
 # Variables
 cc = gcc
 CFLAGS = -Wall -Wextra -Werror
-SRC = main.c
+SRC = main.c window.c image.c
 OBJ = $(SRC:.c=.o)
 NAME = fdf
 
@@ -29,4 +29,5 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(MLX_DIR) fclean
 re: all clean fclean re 
