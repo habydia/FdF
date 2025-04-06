@@ -97,6 +97,7 @@ int main(int argc, char **argv)
     
     mlx_key_hook(fdf->mlx->win_ptr, key_hook, fdf);
     mlx_mouse_hook(fdf->mlx->win_ptr, mouse_hook, fdf);
+    mlx_hook(fdf->mlx->win_ptr, 17, 0, close_window, fdf);
     mlx_loop(fdf->mlx->mlx_ptr);
     
     return (0);

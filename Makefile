@@ -3,7 +3,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
 SRC = src/main.c src/graphics/draw.c src/graphics/graph_init.c \
-src/parsing/parse.c src/utils/ft_get_next_line.c \
+src/parsing/parse.c src/utils/ft_get_next_line.c src/utils/ft_close_window.c \
 src/events/key_hook.c src/events/mouse_hook.c \
 src/math/project.c \
 src/utils/ft_atoi_base.c

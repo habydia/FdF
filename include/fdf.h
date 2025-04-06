@@ -96,6 +96,8 @@ int key_hook(int keycode, t_fdf *fdf);
 int mouse_hook(int button, int x, int y, t_fdf *fdf);
 
 /* Utils functions */
+void free_map(t_map *map);
+int close_window(t_fdf *fdf);
 char	*ft_get_next_line(int fd, char **line);
 void error(char *message);
 int ft_atoi_base(char *str, int base);

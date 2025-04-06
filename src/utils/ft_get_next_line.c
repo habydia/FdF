@@ -37,7 +37,7 @@ char	*read_fd(int fd, char *buffer)
 	if (!stock_buf)
 		return (free(buffer), NULL);
 	bytes_read = 1;
-	while (bytes_read > 0 && !ft_strchr(buffer, '\n'))
+	while (bytes_read > 0 && (!buffer || !ft_strchr(buffer, '\n')))
 	{
 		bytes_read = read(fd, stock_buf, BUFFER_SIZE);
 		if (bytes_read == -1)

@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:23:51 by hadia             #+#    #+#             */
-/*   Updated: 2025/03/28 16:56:46 by hadia            ###   ########.fr       */
+/*   Updated: 2025/04/06 19:32:50 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ int key_hook(int keycode, t_fdf *fdf)
 {
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
-		free(fdf->map);
-		free(fdf->camera);
-		free(fdf->mlx);
-		exit(0);
+		close_window(fdf);
 	}
 	// else if (keycode == KEY_W)
 	// {

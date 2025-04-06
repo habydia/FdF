@@ -59,9 +59,16 @@ static void fill_matrix(int **z_matrix, int **color_matrix, char *line, int y)
         if (color_ptr)
             color_matrix[y][x] = ft_atoi_base(color_ptr + 1, 16);
         else
-            color_matrix[y][x] = WHITE;  // Default color
+            color_matrix[y][x] = WHITE;
         x++;
+    }
+    
+    // Free all strings properly
+    x = 0;
+    while (split[x])
+    {
         free(split[x]);
+        x++;
     }
     free(split);
 }
