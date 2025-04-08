@@ -1,4 +1,4 @@
-#include "fdf.h"
+#include "../include/fdf.h"	
 
 static t_camera *init_camera(void)
 {

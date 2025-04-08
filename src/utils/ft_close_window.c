@@ -19,7 +19,6 @@ void free_map(t_map *map)
 
     if (!map)
         return;
-    // Free z_matrix
     if (map->z_matrix)
     {
         i = 0;
