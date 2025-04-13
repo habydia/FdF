@@ -4,6 +4,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 # include <math.h>
 # include <../libft/libft.h>
 # include <../mlx_linux/mlx.h>
@@ -93,7 +98,7 @@ t_point project(t_point p, t_fdf *fdf);
 
 /* Events functions */
 int key_hook(int keycode, t_fdf *fdf);
-int mouse_hook(int button, int x, int y, t_fdf *fdf);
+int mouse_hook(int button, int x, int y,t_fdf *fdf);
 
 /* Utils functions */
 void free_map(t_map *map);

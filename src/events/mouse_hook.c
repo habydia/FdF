@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:52:27 by hadia             #+#    #+#             */
-/*   Updated: 2025/03/28 16:58:06 by hadia            ###   ########.fr       */
+/*   Updated: 2025/04/12 15:45:17 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 int mouse_hook(int button, int x, int y, t_fdf *fdf)
 {
-	if (button == 1) // Left mouse button
-	{
-		fdf->camera->x_offset += x;
-		fdf->camera->y_offset += y;
-	}
-	else if (button == 4) // Scroll up
+	(void)x;
+	(void)y;
+	if (button == 4) // Scroll up
 	{
 		fdf->camera->scale += 0.1;
 	}
@@ -29,6 +26,5 @@ int mouse_hook(int button, int x, int y, t_fdf *fdf)
 	}
 	
 	render(fdf);
-	
-	return (0);
+	return(0);
 }

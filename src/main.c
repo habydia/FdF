@@ -1,4 +1,4 @@
-#include "../include/fdf.h"	
+#include "fdf.h"
 
 static t_camera *init_camera(void)
 {
@@ -62,8 +62,16 @@ void render(t_fdf *fdf)
 {
     // Clear image
     mlx_clear_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
-    mlx_destroy_image(fdf->mlx->mlx_ptr, fdf->mlx->img_ptr);
+    
+    // Destroy previous image if it exists
+    if (fdf->mlx->img_ptr)
+        mlx_destroy_image(fdf->mlx->mlx_ptr, fdf->mlx->img_ptr);
+    
+    // Create new image
     fdf->mlx->img_ptr = mlx_new_image(fdf->mlx->mlx_ptr, WIDTH, HEIGHT);
+    if (!fdf->mlx->img_ptr)
+        error("Failed to create image");
+        
     fdf->mlx->addr = mlx_get_data_addr(fdf->mlx->img_ptr, &fdf->mlx->bits_per_pixel, 
                                       &fdf->mlx->line_length, &fdf->mlx->endian);
     

@@ -6,7 +6,7 @@
 /*   By: hadia <hadia@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:35:50 by hadia             #+#    #+#             */
-/*   Updated: 2025/04/06 16:48:47 by hadia            ###   ########.fr       */
+/*   Updated: 2025/04/12 16:45:41 by hadia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void free_map(t_map *map)
 
     if (!map)
         return;
+    // Free z_matrix
     if (map->z_matrix)
     {
         i = 0;
@@ -45,17 +46,55 @@ void free_map(t_map *map)
 
 int close_window(t_fdf *fdf)
 {
-    // Free your structures
-    free_map(fdf->map);
-    free(fdf->camera);
+    // First destroy the image
+    if (fdf && fdf->mlx && fdf->mlx->img_ptr)
+    {
+        mlx_destroy_image(fdf->mlx->mlx_ptr, fdf->mlx->img_ptr);
+        fdf->mlx->img_ptr = NULL;
+    }
     
-    // Destroy MLX resources
-    mlx_destroy_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
-    mlx_destroy_display(fdf->mlx->mlx_ptr);
-    free(fdf->mlx->mlx_ptr);
-    free(fdf->mlx);
+    // Then destroy the window
+    if (fdf && fdf->mlx && fdf->mlx->win_ptr)
+    {
+        mlx_destroy_window(fdf->mlx->mlx_ptr, fdf->mlx->win_ptr);
+        fdf->mlx->win_ptr = NULL;
+    }
     
-    // Exit program
+    // Free map data structures
+    if (fdf && fdf->map)
+    {
+        free_map(fdf->map);
+        fdf->map = NULL;
+    }
+    
+    // Free camera
+    if (fdf && fdf->camera)
+    {
+        free(fdf->camera);
+        fdf->camera = NULL;
+    }
+    
+    // Free the MLX display (important: must be after destroying windows and images)
+    if (fdf && fdf->mlx && fdf->mlx->mlx_ptr)
+    {
+        mlx_destroy_display(fdf->mlx->mlx_ptr);
+        free(fdf->mlx->mlx_ptr);
+        fdf->mlx->mlx_ptr = NULL;
+    }
+    
+    // Finally free the MLX struct itself
+    if (fdf && fdf->mlx)
+    {
+        free(fdf->mlx);
+        fdf->mlx = NULL;
+    }
+    
+    // Free the main struct
+    if (fdf)
+    {
+        free(fdf);
+    }
+    
     exit(0);
     return (0);
 }

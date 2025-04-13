@@ -12,16 +12,11 @@ t_mlx *init_mlx(void)
     if (!mlx->mlx_ptr)
         error("MLX initialization failed");
     
-    mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, WIDTH, HEIGHT, "FdF");
+    mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, WIDTH, HEIGHT, "FDF");
     if (!mlx->win_ptr)
         error("Window creation failed");
     
-    mlx->img_ptr = mlx_new_image(mlx->mlx_ptr, WIDTH, HEIGHT);
-    if (!mlx->img_ptr)
-        error("Image creation failed");
-    
-    mlx->addr = mlx_get_data_addr(mlx->img_ptr, &mlx->bits_per_pixel, 
-                                &mlx->line_length, &mlx->endian);
+    mlx->img_ptr = NULL;  // Important: initialize to NULL
     
     return (mlx);
 }
