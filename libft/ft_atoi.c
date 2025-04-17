@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-int static	ft_check_sign(const char c, int *i)
+static	int ft_check_sign(const char c, int *i)
 {
 	int	sign;
 
