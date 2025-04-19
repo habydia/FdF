@@ -40,7 +40,7 @@ static void rotate_point(int *x, int *y, int *z, t_camera *camera)
     *y = prev_x * sin(camera->gamma) + prev_y * cos(camera->gamma);
 }
 
-static void project_point(t_point *p, t_fdf *fdf)
+void project_point(t_point *p, t_fdf *fdf)
 {
     int x;
     int y;

@@ -1,6 +1,6 @@
 NAME = fdf
 
-SRCS = main.c parse.c draw.c events.c get_next_line.c
+SRCS = main.c parse.c draw.c events.c get_next_line.c ft_fit_map_screen.c
 
 OBJS = $(SRCS:.c=.o)
 

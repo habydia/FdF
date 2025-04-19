@@ -8,6 +8,7 @@ static void init_camera(t_camera *camera)
     camera->gamma = 0;
     camera->x_offset = WIN_WIDTH / 2;
     camera->y_offset = WIN_HEIGHT / 2;
+
 }
 
 void init_fdf(t_fdf *fdf)
@@ -30,6 +31,8 @@ void init_fdf(t_fdf *fdf)
     if (!fdf->camera)
         clean_exit(fdf);
     init_camera(fdf->camera);
+
+     fit_map_to_screen(fdf->camera, fdf->map, fdf);
 }
 
 void clean_exit(t_fdf *fdf)
@@ -51,6 +54,7 @@ void clean_exit(t_fdf *fdf)
         mlx_destroy_display(fdf->mlx);
         free(fdf->mlx);
     }
+    free(fdf);
     exit(0);
 }
 

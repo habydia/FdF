@@ -66,6 +66,7 @@ t_map *read_map(char *filename);
 
 // Fonctions de dessin
 void draw(t_fdf *fdf);
+void project_point(t_point *p, t_fdf *fdf);
 
 // Fonctions d'événements
 int key_hook(int keycode, t_fdf *fdf);
@@ -74,6 +75,7 @@ int close_window(t_fdf *fdf);
 
 // Fonctions utilitaires
 char *ft_get_next_line(int fd, char **line);
+void fit_map_to_screen(t_camera *camera, t_map *map, t_fdf *fdf);
 void init_fdf(t_fdf *fdf);
 void free_map(t_map *map);
 void clean_exit(t_fdf *fdf);
