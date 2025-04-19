@@ -84,4 +84,4 @@ int main(int argc, char **argv)
     draw(fdf);
     mlx_loop(fdf->mlx);
     return (0);
-} 
+}

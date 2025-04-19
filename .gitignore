@@ -1,0 +1,10 @@
+
+# directory mlx_linux
+mlx_linux/
+
+#.*
+*.o
+*.out
+
+# executable
+fdf

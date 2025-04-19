@@ -123,4 +123,4 @@ void draw(t_fdf *fdf)
         y++;
     }
     mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
-} 
+}

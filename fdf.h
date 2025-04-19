@@ -61,9 +61,6 @@ typedef struct s_fdf
     t_img *img;
 } t_fdf;
 
-// Fonction get_next_line
-char *ft_get_next_line(int fd, char **line);
-
 // Fonctions de parsing
 t_map *read_map(char *filename);
 
@@ -76,9 +73,10 @@ int mouse_hook(int button, int x, int y, t_fdf *fdf);
 int close_window(t_fdf *fdf);
 
 // Fonctions utilitaires
+char *ft_get_next_line(int fd, char **line);
 void init_fdf(t_fdf *fdf);
 void free_map(t_map *map);
 void clean_exit(t_fdf *fdf);
 void put_pixel(t_img *img, int x, int y, int color);
 
-#endif 
+#endif

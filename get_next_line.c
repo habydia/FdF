@@ -106,4 +106,4 @@ char	*ft_get_next_line(int fd, char **line)
 	}
 	*line = t_line;
 	return (*line);
-} 
+}

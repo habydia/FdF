@@ -57,4 +57,4 @@ int mouse_hook(int button, int x, int y, t_fdf *fdf)
     if (button == 4 || button == 5)
         draw(fdf);
     return (0);
-} 
+}

@@ -100,59 +100,43 @@ t_map *read_map(char *filename)
     map = malloc(sizeof(t_map));
     if (!map)
         return (NULL);
+    
     map->height = get_height(filename);
     if (map->height <= 0)
     {
         free(map);
         return (NULL);
     }
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-    {
-        free(map);
-        return (NULL);
-    }
-    if (!ft_get_next_line(fd, &line))
-    {
-        free(map);
-        close(fd);
-        return (NULL);
-    }
-    map->width = get_width(line);
-    free(line);
-    if (map->width <= 0)
-    {
-        free(map);
-        close(fd);
-        return (NULL);
-    }
+
+    // Allocation de la structure points
     map->points = malloc(sizeof(t_point *) * map->height);
     if (!map->points)
     {
         free(map);
-        close(fd);
         return (NULL);
     }
+
     i = 0;
     while (i < map->height)
     {
-        map->points[i] = malloc(sizeof(t_point) * map->width);
+        map->points[i] = malloc(sizeof(t_point) * 1024); // temporaire, on ajustera map->width ensuite
         if (!map->points[i])
         {
             map->height = i;
             free_map(map);
-            close(fd);
             return (NULL);
         }
         i++;
     }
-    close(fd);
+
+    // 2e lecture du fichier
     fd = open(filename, O_RDONLY);
     if (fd < 0)
     {
         free_map(map);
         return (NULL);
     }
+
     i = 0;
     while (i < map->height)
     {
@@ -164,9 +148,29 @@ t_map *read_map(char *filename)
             close(fd);
             return (NULL);
         }
+
+        // 👉 Calcule width à la 1ère vraie ligne, et réalloue au besoin
+        if (i == 0)
+        {
+            map->width = get_width(line);
+            // On réalloue la ligne 0 avec la bonne largeur
+            free(map->points[0]);
+            map->points[0] = malloc(sizeof(t_point) * map->width);
+            if (!map->points[0])
+            {
+                free(line);
+                free_map(map);
+                close(fd);
+                return (NULL);
+            }
+            // Reparse line[0] avec la bonne alloc
+            parse_line(line, map->points[0], 0);
+        }
+
         free(line);
         i++;
     }
+
     close(fd);
     return (map);
-} 
+}
