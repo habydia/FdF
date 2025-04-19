@@ -16,20 +16,19 @@
 # define WIN_HEIGHT 800
 # define DEFAULT_COLOR 0xFFFFFF
 
-# define KEY_ESC      65307
-# define KEY_Q        113
-# define KEY_A        97
-# define KEY_W        119
-# define KEY_S        115
-# define KEY_E        101
-# define KEY_D        100
-# define KEY_LEFT     65361
-# define KEY_RIGHT    65363
-# define KEY_UP       65362
-# define KEY_DOWN     65364
-# define MOUSE_UP     4
-# define MOUSE_DOWN   5
-
+# define KEY_ESC 65307
+# define KEY_Q 113
+# define KEY_A 97
+# define KEY_W 119
+# define KEY_S 115
+# define KEY_E 101
+# define KEY_D 100
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define MOUSE_UP 4
+# define MOUSE_DOWN 5
 
 typedef struct s_point
 {
@@ -50,12 +49,11 @@ typedef struct s_map
 
 typedef struct s_bounds
 {
-	double x_min;
-	double x_max;
-	double y_min;
-	double y_max;
-}	t_bounds;
-
+	double		x_min;
+	double		x_max;
+	double		y_min;
+	double		y_max;
+}				t_bounds;
 
 typedef struct s_camera
 {
@@ -86,13 +84,13 @@ typedef struct s_fdf
 }				t_fdf;
 
 // Fonctions de parsing
-int parse_line(char *line, t_point *points, int y);
-int get_height(char *filename);
-int get_width(char *line);
+int				parse_line(char *line, t_point *points, int y);
+int				get_height(char *filename);
+int				get_width(char *line);
 t_map			*read_map(char *filename);
 
 // Fonctions de dessin
-void	draw_line(t_img *img, t_point start, t_point end);
+void			draw_line(t_img *img, t_point start, t_point end);
 void			draw(t_fdf *fdf);
 void			project_point(t_point *p, t_fdf *fdf);
 

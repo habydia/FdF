@@ -21,17 +21,14 @@ static void	rotate_point(int *x, int *y, int *z, t_camera *camera)
 	prev_x = *x;
 	prev_y = *y;
 	prev_z = *z;
-	// Rotation autour de l'axe X
 	*y = prev_y * cos(camera->alpha) + prev_z * sin(camera->alpha);
 	*z = -prev_y * sin(camera->alpha) + prev_z * cos(camera->alpha);
 	prev_y = *y;
 	prev_z = *z;
-	// Rotation autour de l'axe Y
 	*x = prev_x * cos(camera->beta) + prev_z * sin(camera->beta);
 	*z = -prev_x * sin(camera->beta) + prev_z * cos(camera->beta);
 	prev_x = *x;
 	prev_z = *z;
-	// Rotation autour de l'axe Z
 	*x = prev_x * cos(camera->gamma) - prev_y * sin(camera->gamma);
 	*y = prev_x * sin(camera->gamma) + prev_y * cos(camera->gamma);
 }
@@ -45,13 +42,10 @@ void	project_point(t_point *p, t_fdf *fdf)
 	x = p->x;
 	y = p->y;
 	z = p->z;
-	// Appliquer le zoom
 	x *= fdf->camera->zoom;
 	y *= fdf->camera->zoom;
 	z *= fdf->camera->zoom;
-	// Appliquer les rotations
 	rotate_point(&x, &y, &z, fdf->camera);
-	// Projection isométrique
 	p->x = (x - y) * cos(0.523599) + fdf->camera->x_offset;
 	p->y = -z + (x + y) * sin(0.523599) + fdf->camera->y_offset;
 }
@@ -79,4 +73,3 @@ void	draw_line(t_img *img, t_point start, t_point end)
 		--pixels;
 	}
 }
-

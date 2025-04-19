@@ -1,5 +1,4 @@
 #include "fdf.h"
-#include "fdf.h"
 
 static int	init_map(t_map **map, int height)
 {

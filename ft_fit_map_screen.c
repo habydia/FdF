@@ -1,10 +1,25 @@
 #include "fdf.h"
 
+static void	update_bounds(t_point *p, t_fdf *fdf, t_bounds *b)
+{
+	t_point	proj;
+
+	proj = *p;
+	project_point(&proj, fdf);
+	if (proj.x < b->x_min)
+		b->x_min = proj.x;
+	if (proj.x > b->x_max)
+		b->x_max = proj.x;
+	if (proj.y < b->y_min)
+		b->y_min = proj.y;
+	if (proj.y > b->y_max)
+		b->y_max = proj.y;
+}
+
 static void	get_bounds(t_map *map, t_fdf *fdf, t_bounds *b)
 {
-	int		i;
-	int		j;
-	t_point	p;
+	int	i;
+	int	j;
 
 	b->x_min = WIN_WIDTH;
 	b->x_max = 0;
@@ -16,16 +31,7 @@ static void	get_bounds(t_map *map, t_fdf *fdf, t_bounds *b)
 		j = 0;
 		while (j < map->width)
 		{
-			p = map->points[i][j];
-			project_point(&p, fdf);
-			if (p.x < b->x_min)
-				b->x_min = p.x;
-			if (p.x > b->x_max)
-				b->x_max = p.x;
-			if (p.y < b->y_min)
-				b->y_min = p.y;
-			if (p.y > b->y_max)
-				b->y_max = p.y;
+			update_bounds(&map->points[i][j], fdf, b);
 			j++;
 		}
 		i++;

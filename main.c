@@ -58,7 +58,7 @@ void	clean_exit(t_fdf *fdf)
 
 int	main(int argc, char **argv)
 {
-	t_fdf *fdf;
+	t_fdf	*fdf;
 
 	if (argc != 2)
 	{

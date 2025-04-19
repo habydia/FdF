@@ -48,7 +48,8 @@ static void	draw_map(t_fdf *fdf)
 
 void	draw(t_fdf *fdf)
 {
-	ft_bzero(fdf->img->addr, WIN_WIDTH * WIN_HEIGHT * (fdf->img->bits_per_pixel / 8));
+	ft_bzero(fdf->img->addr, WIN_WIDTH * WIN_HEIGHT * (fdf->img->bits_per_pixel
+			/ 8));
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->img, 0, 0);
 }
