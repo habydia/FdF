@@ -1,60 +1,60 @@
 #include "fdf.h"
 
-int close_window(t_fdf *fdf)
+int	close_window(t_fdf *fdf)
 {
-    clean_exit(fdf);
-    return (0);
+	clean_exit(fdf);
+	return (0);
 }
 
-static void handle_rotation(int keycode, t_fdf *fdf)
+static void	handle_rotation(int keycode, t_fdf *fdf)
 {
-    if (keycode == 113) // Q - rotation X+
-        fdf->camera->alpha += 0.1;
-    else if (keycode == 97) // A - rotation X-
-        fdf->camera->alpha -= 0.1;
-    else if (keycode == 119) // W - rotation Y+
-        fdf->camera->beta += 0.1;
-    else if (keycode == 115) // S - rotation Y-
-        fdf->camera->beta -= 0.1;
-    else if (keycode == 101) // E - rotation Z+
-        fdf->camera->gamma += 0.1;
-    else if (keycode == 100) // D - rotation Z-
-        fdf->camera->gamma -= 0.1;
+	if (keycode == KEY_Q) // Q - rotation X+
+		fdf->camera->alpha += 0.1;
+	else if (keycode == KEY_A) // A - rotation X-
+		fdf->camera->alpha -= 0.1;
+	else if (keycode == KEY_W) // W - rotation Y+
+		fdf->camera->beta += 0.1;
+	else if (keycode == KEY_S) // S - rotation Y-
+		fdf->camera->beta -= 0.1;
+	else if (keycode == KEY_E) // E - rotation Z+
+		fdf->camera->gamma += 0.1;
+	else if (keycode == KEY_D) // D - rotation Z-
+		fdf->camera->gamma -= 0.1;
 }
 
-static void handle_translation(int keycode, t_fdf *fdf)
+static void	handle_translation(int keycode, t_fdf *fdf)
 {
-    if (keycode == 65361) // Flèche gauche
-        fdf->camera->x_offset -= 10;
-    else if (keycode == 65363) // Flèche droite
-        fdf->camera->x_offset += 10;
-    else if (keycode == 65362) // Flèche haut
-        fdf->camera->y_offset -= 10;
-    else if (keycode == 65364) // Flèche bas
-        fdf->camera->y_offset += 10;
+	if (keycode == KEY_LEFT) // Flèche gauche
+		fdf->camera->x_offset -= 10;
+	else if (keycode == KEY_RIGHT) // Flèche droite
+		fdf->camera->x_offset += 10;
+	else if (keycode == KEY_UP) // Flèche haut
+		fdf->camera->y_offset -= 10;
+	else if (keycode == KEY_DOWN) // Flèche bas
+		fdf->camera->y_offset += 10;
 }
 
-int key_hook(int keycode, t_fdf *fdf)
+int	key_hook(int keycode, t_fdf *fdf)
 {
-    if (keycode == 65307) // ESC
-        close_window(fdf);
-    handle_rotation(keycode, fdf);
-    handle_translation(keycode, fdf);
-    draw(fdf);
-    return (0);
+	if (keycode == KEY_ESC) // ESC
+		close_window(fdf);
+	handle_rotation(keycode, fdf);
+	handle_translation(keycode, fdf);
+	draw(fdf);
+	return (0);
 }
 
-int mouse_hook(int button, int x, int y, t_fdf *fdf)
+int	mouse_hook(int button, int x, int y, t_fdf *fdf)
 {
-    (void)x;
-    (void)y;
-    
-    if (button == 4) // Molette vers le haut
-        fdf->camera->zoom *= 1.1;
-    else if (button == 5) // Molette vers le bas
-        fdf->camera->zoom /= 1.1;
-    
-    if (button == 4 || button == 5)
-        draw(fdf);
-    return (0);
+	(void)x;
+	(void)y;
+
+	if (button == MOUSE_UP)
+		fdf->camera->zoom *= 1.1;
+	else if (button == MOUSE_DOWN)
+		fdf->camera->zoom /= 1.1;
+
+	if (MOUSE_UP|| MOUSE_DOWN)
+		draw(fdf);
+	return (0);
 }

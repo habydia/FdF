@@ -1,176 +1,83 @@
 #include "fdf.h"
+#include "fdf.h"
 
-static int get_width(char *line)
+static int	init_map(t_map **map, int height)
 {
-    int width;
-    int i;
-
-    width = 0;
-    i = 0;
-    while (line[i])
-    {
-        while (line[i] && line[i] == ' ')
-            i++;
-        if (line[i])
-            width++;
-        while (line[i] && line[i] != ' ')
-            i++;
-    }
-    return (width);
+	*map = malloc(sizeof(t_map));
+	if (!*map)
+		return (0);
+	(*map)->height = height;
+	(*map)->points = malloc(sizeof(t_point *) * height);
+	if (!(*map)->points)
+	{
+		free(*map);
+		return (0);
+	}
+	return (1);
 }
 
-static int get_height(char *filename)
+static int	alloc_points(t_map *map, int width)
 {
-    int height;
-    int fd;
-    char *line;
+	int	i;
 
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-        return (-1);
-    height = 0;
-    while (1)
-    {
-        if (!ft_get_next_line(fd, &line))
-            break;
-        height++;
-        free(line);
-    }
-    close(fd);
-    return (height);
+	i = 0;
+	while (i < map->height)
+	{
+		map->points[i] = malloc(sizeof(t_point) * width);
+		if (!map->points[i])
+		{
+			map->height = i;
+			free_map(map);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
-static void fill_point(t_point *point, int x, int y, char *str)
+static int	read_and_parse_lines(t_map *map, int fd)
 {
-    point->x = x;
-    point->y = y;
-    point->z = ft_atoi(str);
-    point->color = DEFAULT_COLOR;
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (i < map->height)
+	{
+		if (!ft_get_next_line(fd, &line))
+			return (0);
+		if (i == 0)
+		{
+			map->width = get_width(line);
+			free(map->points[0]);
+			map->points[0] = malloc(sizeof(t_point) * map->width);
+			if (!map->points[0])
+				return (free(line), 0);
+		}
+		if (!parse_line(line, map->points[i], i))
+			return (free(line), 0);
+		free(line);
+		i++;
+	}
+	return (1);
 }
 
-static int parse_line(char *line, t_point *points, int y)
+t_map	*read_map(char *filename)
 {
-    char **split;
-    int x;
-    int i;
+	t_map	*map;
+	int		fd;
+	int		height;
 
-    split = ft_split(line, ' ');
-    if (!split)
-        return (0);
-    x = 0;
-    i = 0;
-    while (split[i])
-    {
-        fill_point(&points[x], x, y, split[i]);
-        free(split[i]);
-        i++;
-        x++;
-    }
-    free(split);
-    return (1);
-}
-
-void free_map(t_map *map)
-{
-    int i;
-
-    if (!map)
-        return;
-    if (map->points)
-    {
-        i = 0;
-        while (i < map->height)
-        {
-            if (map->points[i])
-                free(map->points[i]);
-            i++;
-        }
-        free(map->points);
-    }
-    free(map);
-}
-
-t_map *read_map(char *filename)
-{
-    t_map *map;
-    int fd;
-    char *line;
-    int i;
-
-    map = malloc(sizeof(t_map));
-    if (!map)
-        return (NULL);
-    
-    map->height = get_height(filename);
-    if (map->height <= 0)
-    {
-        free(map);
-        return (NULL);
-    }
-
-    // Allocation de la structure points
-    map->points = malloc(sizeof(t_point *) * map->height);
-    if (!map->points)
-    {
-        free(map);
-        return (NULL);
-    }
-
-    i = 0;
-    while (i < map->height)
-    {
-        map->points[i] = malloc(sizeof(t_point) * 1024); // temporaire, on ajustera map->width ensuite
-        if (!map->points[i])
-        {
-            map->height = i;
-            free_map(map);
-            return (NULL);
-        }
-        i++;
-    }
-
-    // 2e lecture du fichier
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-    {
-        free_map(map);
-        return (NULL);
-    }
-
-    i = 0;
-    while (i < map->height)
-    {
-        if (!ft_get_next_line(fd, &line) || !parse_line(line, map->points[i], i))
-        {
-            if (line)
-                free(line);
-            free_map(map);
-            close(fd);
-            return (NULL);
-        }
-
-        // 👉 Calcule width à la 1ère vraie ligne, et réalloue au besoin
-        if (i == 0)
-        {
-            map->width = get_width(line);
-            // On réalloue la ligne 0 avec la bonne largeur
-            free(map->points[0]);
-            map->points[0] = malloc(sizeof(t_point) * map->width);
-            if (!map->points[0])
-            {
-                free(line);
-                free_map(map);
-                close(fd);
-                return (NULL);
-            }
-            // Reparse line[0] avec la bonne alloc
-            parse_line(line, map->points[0], 0);
-        }
-
-        free(line);
-        i++;
-    }
-
-    close(fd);
-    return (map);
+	height = get_height(filename);
+	if (height <= 0 || !init_map(&map, height))
+		return (NULL);
+	map->width = 0;
+	if (!alloc_points(map, 1024))
+		return (NULL);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (free_map(map), NULL);
+	if (!read_and_parse_lines(map, fd))
+		return (close(fd), free_map(map), NULL);
+	close(fd);
+	return (map);
 }

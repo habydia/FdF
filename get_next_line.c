@@ -83,8 +83,8 @@ char	*extract_line(char **buffer)
 
 char	*ft_get_next_line(int fd, char **line)
 {
-	char		*t_line;
-	static char	*buffer;
+	char *t_line;
+	static char *buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || !line)
 	{
