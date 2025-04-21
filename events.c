@@ -52,7 +52,7 @@ int	mouse_hook(int button, int x, int y, t_fdf *fdf)
 		fdf->camera->zoom *= 1.1;
 	else if (button == MOUSE_DOWN)
 		fdf->camera->zoom /= 1.1;
-	if (MOUSE_UP || MOUSE_DOWN)
+	if (button == MOUSE_DOWN|| button == MOUSE_UP)
 		draw(fdf);
 	return (0);
 }
