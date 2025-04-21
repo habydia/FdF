@@ -40,34 +40,44 @@ int	get_height(char *filename)
 	return (height);
 }
 
-static void	fill_point(t_point *point, int x, int y, char *str)
+static int	hex_to_int(const char *hex)
 {
-	point->x = x;
-	point->y = y;
-	point->z = ft_atoi(str);
-	point->color = DEFAULT_COLOR;
+	int	result;
+
+	if (!hex)
+		return (DEFAULT_COLOR);
+	if (hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X'))
+		hex += 2;
+	result = 0;
+	while (*hex)
+	{
+		result *= 16;
+		if (*hex >= '0' && *hex <= '9')
+			result += *hex - '0';
+		else if (*hex >= 'A' && *hex <= 'F')
+			result += *hex - 'A' + 10;
+		else if (*hex >= 'a' && *hex <= 'f')
+			result += *hex - 'a' + 10;
+		else
+			break ;
+		hex++;
+	}
+	return (result);
 }
 
-int	parse_line(char *line, t_point *points, int y)
+void	fill_point(t_point *point, int x, int y, char *str)
 {
 	char	**split;
-	int		x;
-	int		i;
 
-	split = ft_split(line, ' ');
-	if (!split)
-		return (0);
-	x = 0;
-	i = 0;
-	while (split[i])
-	{
-		fill_point(&points[x], x, y, split[i]);
-		free(split[i]);
-		i++;
-		x++;
-	}
-	free(split);
-	return (1);
+	point->x = x;
+	point->y = y;
+	split = ft_split(str, ',');
+	point->z = ft_atoi(split[0]);
+	if (split[1])
+		point->color = hex_to_int(split[1]);
+	else
+		point->color = DEFAULT_COLOR;
+	ft_free_split(split);
 }
 
 void	free_map(t_map *map)

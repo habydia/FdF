@@ -63,6 +63,7 @@ char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				ft_putnbr_fd(int n, int fd);
 char				**ft_split(char const *s, char c);
+void				ft_free_split(char **split);
 char				*ft_itoa(int n);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);

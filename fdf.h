@@ -84,6 +84,7 @@ typedef struct s_fdf
 }				t_fdf;
 
 // Fonctions de parsing
+void			fill_point(t_point *point, int x, int y, char *str);
 int				parse_line(char *line, t_point *points, int y);
 int				get_height(char *filename);
 int				get_width(char *line);

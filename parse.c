@@ -1,5 +1,27 @@
 #include "fdf.h"
 
+int	parse_line(char *line, t_point *points, int y)
+{
+	char	**split;
+	int		x;
+	int		i;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (0);
+	x = 0;
+	i = 0;
+	while (split[i])
+	{
+		fill_point(&points[x], x, y, split[i]);
+		free(split[i]);
+		i++;
+		x++;
+	}
+	free(split);
+	return (1);
+}
+
 static int	init_map(t_map **map, int height)
 {
 	*map = malloc(sizeof(t_map));
